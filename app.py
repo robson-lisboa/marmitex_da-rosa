@@ -1,3 +1,11 @@
+from flask import Flask
+import os
+
+app = Flask(__name__)
+
+# Link do seu iFood
+IFOOD_LINK = "https://www.ifood.com.br/delivery/mogi-das-cruzes-sp/marmitex-da-rosa---sabor-jardim-marica/0c36497f-001e-4a37-ae6d-e57d04370966"
+
 @app.route("/")
 def home():
     return f"""
@@ -5,6 +13,7 @@ def home():
     <head>
         <meta http-equiv="refresh" content="2;url={IFOOD_LINK}" />
         <title>Marmitex da Rosa</title>
+        <meta name="description" content="Marmitex da Rosa - comida caseira saborosa em Mogi das Cruzes. Peça agora pelo iFood.">
         <style>
             body {{
                 display: flex;
@@ -16,6 +25,7 @@ def home():
                 font-family: Arial, sans-serif;
                 background: linear-gradient(to bottom, #fffae3, #ffe0b2);
                 color: #333;
+                text-align: center;
             }}
             h1 {{
                 font-size: 2.5rem;
@@ -46,3 +56,13 @@ def home():
     </body>
     </html>
     """
+
+# Rota de verificação para manter o servidor ativo
+@app.route("/health")
+def health():
+    return "OK", 200
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
