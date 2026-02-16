@@ -1,17 +1,10 @@
-from flask import Flask
-
-app = Flask(__name__)
-
-# Link do seu iFood
-IFOOD_LINK = "https://www.ifood.com.br/delivery/mogi-das-cruzes-sp/marmitex-da-rosa---sabor-jardim-marica/0c36497f-001e-4a37-ae6d-e57d04370966"
-
 @app.route("/")
 def home():
     return f"""
     <html>
     <head>
         <meta http-equiv="refresh" content="2;url={IFOOD_LINK}" />
-        <title>Almoço disponível!</title>
+        <title>Marmitex da Rosa</title>
         <style>
             body {{
                 display: flex;
@@ -47,16 +40,9 @@ def home():
         </style>
     </head>
     <body>
-        <h1>🍛 Almoço disponível!</h1>
+        <h1>🍛 Marmitex da Rosa</h1>
         <p>Redirecionando para o iFood...</p>
-        <a href="{IFOOD_LINK}">Clique aqui se não redirecionar</a>
+        <a href="{IFOOD_LINK}">Peça agora no iFood</a>
     </body>
     </html>
     """
-
-import os
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
-
