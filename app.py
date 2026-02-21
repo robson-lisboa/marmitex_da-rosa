@@ -1,68 +1,97 @@
-from flask import Flask
-import os
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="3;url=https://www.ifood.com.br/delivery/mogi-das-cruzes-sp/marmitex-da-rosa---sabor-jardim-marica/0c36497f-001e-4a37-ae6d-e57d04370966">
+<title>Marmitex da Rosa</title>
 
-app = Flask(__name__)
+<meta name="description" content="Marmitex da Rosa - comida caseira em Mogi das Cruzes. Peça agora no iFood.">
 
-# Link do seu iFood
-IFOOD_LINK = "https://www.ifood.com.br/delivery/mogi-das-cruzes-sp/marmitex-da-rosa---sabor-jardim-marica/0c36497f-001e-4a37-ae6d-e57d04370966"
+<style>
+body{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+font-family:Arial;
+background:linear-gradient(to bottom,#fff8dc,#ffd8a8);
+text-align:center;
+}
 
-@app.route("/")
-def home():
-    return f"""
-    <html>
-    <head>
-        <meta http-equiv="refresh" content="2;url={IFOOD_LINK}" />
-        <title>Marmitex da Rosa</title>
-        <meta name="description" content="Marmitex da Rosa - comida caseira saborosa em Mogi das Cruzes. Peça agora pelo iFood.">
-        <style>
-            body {{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-                font-family: Arial, sans-serif;
-                background: linear-gradient(to bottom, #fffae3, #ffe0b2);
-                color: #333;
-                text-align: center;
-            }}
-            h1 {{
-                font-size: 2.5rem;
-                margin-bottom: 20px;
-            }}
-            p {{
-                font-size: 1.2rem;
-            }}
-            a {{
-                display: inline-block;
-                margin-top: 15px;
-                padding: 10px 20px;
-                background-color: #ff5722;
-                color: white;
-                text-decoration: none;
-                border-radius: 5px;
-                transition: background-color 0.3s;
-            }}
-            a:hover {{
-                background-color: #e64a19;
-            }}
-        </style>
-    </head>
-    <body>
-        <h1>🍛 Marmitex da Rosa</h1>
-        <p>Redirecionando para o iFood...</p>
-        <a href="{IFOOD_LINK}">Peça agora no iFood</a>
-    </body>
-    </html>
-    """
+h1{
+font-size:2.5rem;
+margin-bottom:5px;
+}
 
-# Rota de verificação para manter o servidor ativo
-@app.route("/health")
-def health():
-    return "OK", 200
+.frase{
+font-size:1.2rem;
+margin-bottom:10px;
+}
 
+.versiculo{
+font-size:0.9rem;
+opacity:0.8;
+margin-top:10px;
+}
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+.contador{
+margin-top:15px;
+font-size:0.9rem;
+opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="titulo"></h1>
+<div class="frase" id="frase"></div>
+<div class="versiculo" id="versiculo"></div>
+<div class="contador" id="contador">Abrindo iFood em 3s...</div>
+
+<script>
+const versiculos = [
+"O Senhor é meu pastor. (Salmo 23:1)",
+"Tudo posso naquele que me fortalece. (Filipenses 4:13)",
+"Deus é amor. (1 João 4:8)",
+"Confia no Senhor. (Provérbios 3:5)",
+"O Senhor é bom. (Salmo 100:5)",
+"A paz esteja com vocês. (João 20:19)"
+];
+
+const frases = [
+"Comida caseira feita com carinho",
+"Sabor de comida de casa",
+"Quentinha feita na hora",
+"Almoço caprichado",
+"Comida boa de verdade"
+];
+
+const emojis = ["🍛","🥘","🍲","🍽️","🥗"];
+
+/* versículo muda por DIA automaticamente */
+const hoje = new Date().getDate();
+const versiculo = versiculos[hoje % versiculos.length];
+
+const frase = frases[Math.floor(Math.random()*frases.length)];
+const emoji = emojis[Math.floor(Math.random()*emojis.length)];
+
+document.getElementById("titulo").innerText = emoji + " Marmitex da Rosa";
+document.getElementById("frase").innerText = frase;
+document.getElementById("versiculo").innerText = versiculo;
+
+/* contador */
+let tempo = 3;
+setInterval(()=>{
+tempo--;
+if(tempo >= 0){
+document.getElementById("contador").innerText =
+"Abrindo iFood em " + tempo + "s...";
+}
+},1000);
+</script>
+
+</body>
+</html>
