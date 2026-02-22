@@ -25,9 +25,9 @@ def home():
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-                background-color: #FFC107; /* Amarelo do logo */
+                background-color: #FFC107;
                 font-family: 'Segoe UI', Arial, sans-serif;
-                color: #0D214F; /* Azul do logo */
+                color: #0D214F;
                 overflow: hidden;
             }}
 
@@ -61,7 +61,7 @@ def home():
                 display: inline-block;
                 padding: 16px 30px;
                 font-size: 18px;
-                background-color: #EA1D2C; /* Vermelho iFood */
+                background-color: #EA1D2C;
                 color: white;
                 text-decoration: none;
                 font-weight: bold;
@@ -85,12 +85,13 @@ def home():
 
         <script>
             const textElement = document.getElementById("text");
+
             const mensagens = [
                 "Hummm... sinta o cheirinho de comida caseira! 🍛",
                 "Preparando tudo com o tempero especial da Rosa...",
                 "Prontinho! Sua Marmitex te espera."
             ];
-            
+
             let i = 0;
 
             function mudarTexto() {{
@@ -102,16 +103,19 @@ def home():
                         i++;
                         setTimeout(mudarTexto, 2500);
                     }}, 800);
-                }} else {{
-                    // Após as mensagens, redireciona automático
-                    setTimeout(() => {{
-                        window.location.href = "{IFOOD_LINK}";
-                    }}, 2000);
                 }}
             }}
 
-            window.onload = mudarTexto;
+            window.onload = () => {{
+                mudarTexto();
+
+                // Redirecionamento em 10 segundos
+                setTimeout(() => {{
+                    window.location.href = "{IFOOD_LINK}";
+                }}, 10000);
+            }};
         </script>
+
     </body>
     </html>
     """
