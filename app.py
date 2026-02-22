@@ -1,81 +1,125 @@
-from flask import Flask, send_from_directory
+from flask import Flask, render_template_string
 import os
 
 app = Flask(__name__)
 
-# Configurações de links
+# LINK DO RESTAURANTE
 IFOOD_LINK = "https://www.ifood.com.br/delivery/mogi-das-cruzes-sp/marmitex-da-rosa---sabor-jardim-marica/0c36497f-001e-4a37-ae6d-e57d04370966"
-NOME_DO_ARQUIVO_LOGO = "logo.png" # Certifique-se que o nome no GitHub seja igual a este
+
+HTML = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta http-equiv="refresh" content="5;url={{ ifood_link }}">
+
+<title>Marmitex da Rosa</title>
+
+<style>
+body{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(to bottom,#fff8dc,#ffd8a8);
+text-align:center;
+}
+
+h1{
+font-size:2.3rem;
+margin-bottom:10px;
+}
+
+.versiculo{
+font-size:1.2rem;
+max-width:500px;
+margin-top:10px;
+}
+
+.botao{
+margin-top:20px;
+padding:14px 26px;
+background:#ff5722;
+color:white;
+border-radius:10px;
+text-decoration:none;
+font-size:1.1rem;
+font-weight:bold;
+}
+
+.botao:hover{
+background:#e64a19;
+}
+
+.contador{
+margin-top:15px;
+font-size:0.9rem;
+opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🍛 Marmitex da Rosa</h1>
+
+<div class="versiculo" id="versiculo"></div>
+
+<a class="botao" href="{{ ifood_link }}">
+Pedir agora no iFood
+</a>
+
+<div class="contador" id="contador">
+Abrindo iFood automaticamente...
+</div>
+
+<script>
+const versiculos = [
+"Salmo 23:1 — O Senhor é meu pastor; nada me faltará.",
+"Filipenses 4:13 — Tudo posso naquele que me fortalece.",
+"Provérbios 3:5 — Confia no Senhor de todo o teu coração.",
+"Romanos 8:28 — Todas as coisas cooperam para o bem.",
+"Josué 1:9 — Seja forte e corajoso.",
+"Salmo 37:5 — Entrega o teu caminho ao Senhor."
+];
+
+const hoje = new Date().getDate();
+const versiculoHoje = versiculos[hoje % versiculos.length];
+
+document.getElementById("versiculo").innerText = versiculoHoje;
+
+let tempo = 5;
+const contador = document.getElementById("contador");
+
+const timer = setInterval(() => {
+tempo--;
+contador.innerText = "Abrindo iFood em " + tempo + " segundos...";
+if (tempo <= 0) clearInterval(timer);
+}, 1000);
+
+setTimeout(() => {
+window.location.href = "{{ ifood_link }}";
+}, 5000);
+</script>
+
+</body>
+</html>
+"""
 
 @app.route("/")
 def home():
-    return f"""
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="refresh" content="3;url={IFOOD_LINK}" />
-        <title>Marmitex da Rosa</title>
-        <style>
-            body {{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-                font-family: 'Arial', sans-serif;
-                background-color: #FFC107; /* Amarelo do logo */
-                color: #0D214F; /* Azul do logo */
-                text-align: center;
-            }}
-            .card {{
-                background: white;
-                padding: 40px;
-                border-radius: 30px;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-                max-width: 320px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }}
-            img.logo {{
-                width: 180px;
-                height: auto;
-                margin-bottom: 20px;
-                border-radius: 50%;
-            }}
-            h1 {{ font-size: 1.5rem; margin-bottom: 10px; }}
-            p {{ color: #666; margin-bottom: 20px; }}
-            .botao {{
-                display: block;
-                padding: 15px 25px;
-                background-color: #EA1D2C; /* Vermelho iFood */
-                color: white;
-                text-decoration: none;
-                font-weight: bold;
-                border-radius: 10px;
-                transition: 0.3s;
-            }}
-        </style>
-    </head>
-    <body>
-        <div class="card">
-            <img src="/imagem-logo" alt="Logo Marmitex da Rosa" class="logo">
-            <h1>Almoço saindo! 🍛</h1>
-            <p>Aguarde um instante, estamos te levando para o cardápio...</p>
-            <a href="{IFOOD_LINK}" class="botao">ABRIR IFOOD AGORA</a>
-        </div>
-    </body>
-    </html>
-    """
+    return render_template_string(HTML, ifood_link=IFOOD_LINK)
 
-# Rota para servir a imagem do seu repositório
-@app.route("/imagem-logo")
-def servir_logo():
-    return send_from_directory(os.getcwd(), NOME_DO_ARQUIVO_LOGO)
+@app.route("/health")
+def health():
+    return "OK", 200
 
+# IMPORTANTE PARA RENDER
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
