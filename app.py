@@ -3,12 +3,9 @@ import os
 
 app = Flask(__name__)
 
-# --- CONFIGURAÇÕES DO SEU NEGÓCIO ---
-# Link do seu iFood para onde o cliente será enviado
+# Configurações do seu negócio
 IFOOD_LINK = "https://www.ifood.com.br/delivery/mogi-das-cruzes-sp/marmitex-da-rosa---sabor-jardim-marica/0c36497f-001e-4a37-ae6d-e57d04370966"
-
-# Nome exato do ficheiro da imagem que está no seu GitHub
-NOME_DO_ARQUIVO_LOGO = "logo.png" 
+NOME_DO_ARQUIVO_LOGO = "logo.png"
 
 @app.route("/")
 def home():
@@ -18,75 +15,115 @@ def home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="refresh" content="3;url={IFOOD_LINK}" />
-        <title>Marmitex da Rosa - Comida Caseira</title>
+        <title>Marmitex da Rosa</title>
         <style>
             body {{
+                margin: 0;
+                padding: 0;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-                margin: 0;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #FFC107; /* Amarelo do logótipo */
-                color: #0D214F; /* Azul do logótipo */
-                text-align: center;
+                background-color: #FFC107; /* Amarelo do logo */
+                font-family: 'Segoe UI', Arial, sans-serif;
+                color: #0D214F; /* Azul do logo */
+                overflow: hidden;
             }}
+
             .card {{
                 background: white;
                 padding: 40px 20px;
                 border-radius: 30px;
                 box-shadow: 0 15px 35px rgba(0,0,0,0.2);
                 max-width: 350px;
-                width: 90%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+                width: 85%;
+                text-align: center;
             }}
+
             img.logo {{
-                width: 150px;
+                width: 160px;
                 height: auto;
                 margin-bottom: 20px;
+                border-radius: 50%;
             }}
-            h1 {{ font-size: 1.6rem; margin: 10px 0; }}
-            p {{ font-size: 1rem; color: #555; margin-bottom: 25px; }}
+
+            #text {{
+                font-size: 20px;
+                line-height: 1.6;
+                transition: opacity 0.8s ease;
+                margin-bottom: 30px;
+                min-height: 80px;
+                font-weight: bold;
+            }}
+
             .botao {{
                 display: inline-block;
-                width: 100%;
-                padding: 15px;
+                padding: 16px 30px;
+                font-size: 18px;
                 background-color: #EA1D2C; /* Vermelho iFood */
                 color: white;
                 text-decoration: none;
                 font-weight: bold;
                 border-radius: 12px;
                 transition: transform 0.2s;
+                box-shadow: 0 4px 15px rgba(234, 29, 44, 0.3);
             }}
-            .botao:hover {{ transform: scale(1.05); }}
+
+            .botao:hover {{
+                transform: scale(1.05);
+            }}
         </style>
     </head>
     <body>
+
         <div class="card">
             <img src="/imagem-logo" alt="Logo Marmitex da Rosa" class="logo">
-            <h1>Almoço disponível! 🍛</h1>
-            <p>Estamos a levar-te para o cardápio no iFood...</p>
-            <a href="{IFOOD_LINK}" class="botao">ABRIR IFOOD AGORA</a>
+            <div id="text"></div>
+            <a href="{IFOOD_LINK}" class="botao">VER CARDÁPIO NO IFOOD</a>
         </div>
+
+        <script>
+            const textElement = document.getElementById("text");
+            const mensagens = [
+                "Hummm... sinta o cheirinho de comida caseira! 🍛",
+                "Preparando tudo com o tempero especial da Rosa...",
+                "Prontinho! Sua Marmitex te espera."
+            ];
+            
+            let i = 0;
+
+            function mudarTexto() {{
+                if (i < mensagens.length) {{
+                    textElement.style.opacity = 0;
+                    setTimeout(() => {{
+                        textElement.innerHTML = mensagens[i];
+                        textElement.style.opacity = 1;
+                        i++;
+                        setTimeout(mudarTexto, 2500);
+                    }}, 800);
+                }} else {{
+                    // Após as mensagens, redireciona automático
+                    setTimeout(() => {{
+                        window.location.href = "{IFOOD_LINK}";
+                    }}, 2000);
+                }}
+            }}
+
+            window.onload = mudarTexto;
+        </script>
     </body>
     </html>
     """
 
-# ROTA PARA O LOGÓTIPO: Faz com que o Render encontre a imagem no GitHub
 @app.route("/imagem-logo")
 def servir_logo():
     return send_from_directory(os.getcwd(), NOME_DO_ARQUIVO_LOGO)
 
-# ROTA DE PING: Resposta rápida para o UptimeRobot saber que o site está vivo
 @app.route("/ping")
 def ping():
     return "OK", 200
 
 if __name__ == "__main__":
-    # Define a porta 10000 exigida pelo Render
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
