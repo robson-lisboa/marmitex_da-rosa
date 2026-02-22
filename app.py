@@ -3,7 +3,6 @@ import os
 
 app = Flask(__name__)
 
-# Configurações do seu negócio
 IFOOD_LINK = "https://www.ifood.com.br/delivery/mogi-das-cruzes-sp/marmitex-da-rosa---sabor-jardim-marica/0c36497f-001e-4a37-ae6d-e57d04370966"
 NOME_DO_ARQUIVO_LOGO = "logo.png"
 
@@ -101,18 +100,18 @@ def home():
                         textElement.innerHTML = mensagens[i];
                         textElement.style.opacity = 1;
                         i++;
-                        setTimeout(mudarTexto, 2500);
-                    }}, 800);
+                        setTimeout(mudarTexto, 900);
+                    }}, 300);
                 }}
             }}
 
             window.onload = () => {{
                 mudarTexto();
 
-                // Redirecionamento em 4 segundos
+                // Redirecionamento em 3 segundos
                 setTimeout(() => {{
                     window.location.href = "{IFOOD_LINK}";
-                }}, 10000);
+                }}, 3000);
             }};
         </script>
 
@@ -131,5 +130,3 @@ def ping():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
-
