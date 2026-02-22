@@ -108,10 +108,10 @@ def home():
             window.onload = () => {{
                 mudarTexto();
 
-                // Redirecionamento em 3 segundos
+                // Redirecionamento em 5 segundos
                 setTimeout(() => {{
                     window.location.href = "{IFOOD_LINK}";
-                }}, 3000);
+                }}, 5000);
             }};
         </script>
 
@@ -130,3 +130,4 @@ def ping():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
