@@ -50,7 +50,7 @@ def home():
             #text {{
                 font-size: 20px;
                 line-height: 1.6;
-                transition: opacity 0.2s ease;
+                transition: opacity 0.8s ease;
                 margin-bottom: 30px;
                 min-height: 80px;
                 font-weight: bold;
@@ -108,7 +108,7 @@ def home():
 
                 setTimeout(() => {{
                     window.location.href = "{IFOOD_LINK}";
-                }}, 5000);
+                }}, 2000);  // 2 segundos
             }};
         </script>
 
@@ -127,4 +127,3 @@ def ping():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
