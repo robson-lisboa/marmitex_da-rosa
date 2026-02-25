@@ -86,9 +86,7 @@ def home():
             const textElement = document.getElementById("text");
 
             const mensagens = [
-                "Hummm... sinta o cheirinho de comida caseira! 🍛",
-                "Preparando tudo com o tempero especial da Rosa...",
-                "Prontinho! Sua Marmitex te espera."
+                "Comida caseira de verdade. Peça agora! 🍛"
             ];
 
             let i = 0;
@@ -108,7 +106,6 @@ def home():
             window.onload = () => {{
                 mudarTexto();
 
-                // Redirecionamento em 5 segundos
                 setTimeout(() => {{
                     window.location.href = "{IFOOD_LINK}";
                 }}, 5000);
@@ -130,5 +127,3 @@ def ping():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
-
