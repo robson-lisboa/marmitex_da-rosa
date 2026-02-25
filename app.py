@@ -108,7 +108,7 @@ def home():
 
                 setTimeout(() => {{
                     window.location.href = "{IFOOD_LINK}";
-                }}, 2000);  // 2 segundos
+                }}, 2000);
             }};
         </script>
 
